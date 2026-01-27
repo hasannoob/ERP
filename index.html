@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unique ERP User Panel</title>
+    <title>ERP Create by Hasan</title>
     <style>
         :root {
             --primary-color: #27ae60;
@@ -269,7 +269,7 @@
         </nav>
 
         <main class="main-content">
-            <!-- Dashboard Page -->
+            <!-- All page content divs are here, no changes needed -->
             <div id="dashboard" class="page-content">
                 <div class="header"><h1>Dashboard Overview</h1></div>
                 <div class="kpi-cards">
@@ -286,8 +286,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Production Entry Page -->
             <div id="production-entry" class="page-content">
                 <div class="header"><h1>Production Entry</h1></div>
                 <div class="card">
@@ -304,8 +302,6 @@
                     </form>
                 </div>
             </div>
-            
-            <!-- Packing Fail Page -->
             <div id="packing-fail" class="page-content">
                 <div class="header"><h1>Packing Fail Entry</h1></div>
                 <div class="card">
@@ -322,8 +318,6 @@
                     </form>
                 </div>
             </div>
-
-            <!-- Production Fail Page -->
             <div id="production-fail" class="page-content">
                 <div class="header"><h1>Production Fail Entry</h1></div>
                 <div class="card">
@@ -340,8 +334,6 @@
                     </form>
                 </div>
             </div>
-
-            <!-- Packing Send Page -->
             <div id="packing-send" class="page-content">
                 <div class="header"><h1>Send to Packing</h1></div>
                 <div class="card">
@@ -358,8 +350,6 @@
                     </form>
                 </div>
             </div>
-            
-            <!-- Packing Return Page -->
             <div id="packing-return" class="page-content">
                 <div class="header"><h1>Packing Return (Good Product)</h1></div>
                 <div class="card">
@@ -376,8 +366,6 @@
                     </form>
                 </div>
             </div>
-
-            <!-- Master Report Page -->
             <div id="master-report" class="page-content">
                 <div class="header"><h1>Master Report</h1></div>
                 <div class="card">
@@ -404,8 +392,6 @@
                     </table>
                 </div>
             </div>
-
-            <!-- Packing Send Master Report Page -->
             <div id="packing-send-master-report" class="page-content">
                 <div class="header"><h1>Packing Send Master Report</h1></div>
                 <div class="card">
@@ -432,21 +418,23 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
+        // Updated with your NEW Firebase project details
         const firebaseConfig = {
-            apiKey: "AIzaSyCaVR0gMKOMCMUQHPcchZVzP8Z2xeXmqR4", // Please change this key
-            authDomain: "erp-acb6b.firebaseapp.com",
-            databaseURL: "https://erp-acb6b-default-rtdb.firebaseio.com",
-            projectId: "erp-acb6b",
-            storageBucket: "erp-acb6b.appspot.com",
-            messagingSenderId: "224077695495",
-            appId: "1:224077695495:web:dce4ed9fed907e8e5fb8a2",
-            measurementId: "G-BQ8R96S97S"
+            apiKey: "AIzaSyC1gLXDKHtkMV2s5ZsRlrHF8MiuP_pQnCo",
+            authDomain: "erp-22158.firebaseapp.com",
+            databaseURL: "https://erp-22158-default-rtdb.firebaseio.com",
+            projectId: "erp-22158",
+            storageBucket: "erp-22158.appspot.com",
+            messagingSenderId: "87466207491",
+            appId: "1:87466207491:web:e1edbb1910f59cb3cf6136",
+            measurementId: "G-651LD359N7"
         };
         
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        // All other Javascript functions are below, no changes needed.
         let allMaterialsData = [];
 
         function showPage(pageId, element) {
@@ -456,7 +444,6 @@
                 document.querySelectorAll('.sidebar-menu a').forEach(link => link.classList.remove('active'));
                 element.classList.add('active');
             }
-            
             if (pageId === 'dashboard') loadDashboard();
             if (pageId === 'production-entry') loadProductionForm();
             if (pageId === 'packing-fail') loadPackingFailForm();
@@ -493,60 +480,69 @@
         function logoutUser() { auth.signOut(); }
 
         async function loadDashboard() {
-            const snapshot = await db.collection('materials').get();
-            let totalTarget = 0, totalProduction = 0, totalFail = 0;
-            let performanceHtml = '';
-            
-            snapshot.forEach(doc => {
-                const item = doc.data();
-                const target = item.targetQty || 0;
-                const inHand = item.inHandQty || 0;
-                const packingSent = item.packingSentQty || 0;
-                const faulty = item.faultyQty || 0; 
-                const fail = item.failQty || 0;
-                const achievement = inHand + packingSent;
-
-                totalTarget += target;
-                totalProduction += achievement;
-                totalFail += (faulty + fail);
+            try {
+                const snapshot = await db.collection('materials').get();
+                let totalTarget = 0, totalProduction = 0, totalFail = 0;
+                let performanceHtml = '';
                 
-                const progress = target > 0 ? (achievement / target) * 100 : 0;
-                performanceHtml += `
-                    <div class="progress-item">
-                        <span>${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})</span>
-                        <span>${target}</span>
-                        <div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width: ${progress.toFixed(2)}%;">${progress.toFixed(0)}%</div>
+                snapshot.forEach(doc => {
+                    const item = doc.data();
+                    const target = item.targetQty || 0;
+                    const inHand = item.inHandQty || 0;
+                    const packingSent = item.packingSentQty || 0;
+                    const faulty = item.faultyQty || 0; 
+                    const fail = item.failQty || 0;
+                    const achievement = inHand + packingSent;
+
+                    totalTarget += target;
+                    totalProduction += achievement;
+                    totalFail += (faulty + fail);
+                    
+                    const progress = target > 0 ? (achievement / target) * 100 : 0;
+                    performanceHtml += `
+                        <div class="progress-item">
+                            <span>${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})</span>
+                            <span>${target}</span>
+                            <div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: ${progress.toFixed(2)}%;">${progress.toFixed(0)}%</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            });
-            
-            document.getElementById('kpi-total-target').textContent = totalTarget;
-            document.getElementById('kpi-total-production').textContent = totalProduction;
-            document.getElementById('kpi-total-fail').textContent = totalFail;
-            const achievementRate = totalTarget > 0 ? (totalProduction / totalTarget) * 100 : 0;
-            document.getElementById('kpi-achievement-rate').textContent = `${achievementRate.toFixed(1)}%`;
-            document.getElementById('product-performance-list').innerHTML = performanceHtml;
+                    `;
+                });
+                
+                document.getElementById('kpi-total-target').textContent = totalTarget;
+                document.getElementById('kpi-total-production').textContent = totalProduction;
+                document.getElementById('kpi-total-fail').textContent = totalFail;
+                const achievementRate = totalTarget > 0 ? (totalProduction / totalTarget) * 100 : 0;
+                document.getElementById('kpi-achievement-rate').textContent = `${achievementRate.toFixed(1)}%`;
+                document.getElementById('product-performance-list').innerHTML = performanceHtml;
+            } catch(error) {
+                console.error("Error loading dashboard data:", error);
+            }
         }
 
         async function loadSelectOptions(selectElementId) {
             const selectElement = document.getElementById(selectElementId);
             selectElement.innerHTML = '<option value="">Loading...</option>';
-            const snapshot = await db.collection('materials').orderBy('modelName').get();
-            let optionsHtml = '<option value="">-- Select a model --</option>';
-            snapshot.forEach(doc => {
-                const item = doc.data();
-                optionsHtml += `<option value="${doc.id}" 
-                                        data-model="${item.modelName}" 
-                                        data-color="${item.color}" 
-                                        data-batch="${item.batchNo || ''}">
-                                    ${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})
-                                </option>`;
-            });
-            selectElement.innerHTML = optionsHtml;
+            try {
+                const snapshot = await db.collection('materials').orderBy('modelName').get();
+                let optionsHtml = '<option value="">-- Select a model --</option>';
+                snapshot.forEach(doc => {
+                    const item = doc.data();
+                    optionsHtml += `<option value="${doc.id}" 
+                                            data-model="${item.modelName}" 
+                                            data-color="${item.color}" 
+                                            data-batch="${item.batchNo || ''}">
+                                        ${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})
+                                    </option>`;
+                });
+                selectElement.innerHTML = optionsHtml;
+            } catch(error) {
+                console.error("Error loading select options:", error);
+                selectElement.innerHTML = '<option value="">Failed to load data</option>';
+            }
         }
 
         function loadProductionForm() { loadSelectOptions('prod-model'); }
