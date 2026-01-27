@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERP Create by Hasan</title>
+    <title>Unique ERP User Panel</title>
     <style>
         :root {
             --primary-color: #27ae60;
@@ -230,6 +230,32 @@
         .styled-table tbody tr:hover {
             background-color: #f9f9f9;
         }
+        /* ===== START: NEW AUTOCOMPLETE STYLES ===== */
+        .autocomplete-container {
+            position: relative;
+        }
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #fff;
+        }
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .autocomplete-items div:hover {
+            background-color: #e9e9e9;
+        }
+        /* ===== END: NEW AUTOCOMPLETE STYLES ===== */
     </style>
 </head>
 <body>
@@ -269,7 +295,7 @@
         </nav>
 
         <main class="main-content">
-            <!-- All page content divs are here, no changes needed -->
+            <!-- Dashboard Page -->
             <div id="dashboard" class="page-content">
                 <div class="header"><h1>Dashboard Overview</h1></div>
                 <div class="kpi-cards">
@@ -286,13 +312,19 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Production Entry Page -->
             <div id="production-entry" class="page-content">
                 <div class="header"><h1>Production Entry</h1></div>
                 <div class="card">
                     <form id="production-form" onsubmit="submitProductionEntry(event)">
                         <div class="form-group">
-                            <label for="prod-model">Model, Color & Batch</label>
-                            <select id="prod-model" required><option value="">Loading...</option></select>
+                            <label for="prod-model-search">Search Model, Color & Batch</label>
+                            <div class="autocomplete-container">
+                                <input type="text" id="prod-model-search" placeholder="Type to search..." autocomplete="off">
+                                <input type="hidden" id="prod-model">
+                                <div class="autocomplete-items" id="prod-model-results"></div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="entry-qty">Entry Quantity (pcs)</label>
@@ -302,13 +334,19 @@
                     </form>
                 </div>
             </div>
+            
+            <!-- Packing Fail Page -->
             <div id="packing-fail" class="page-content">
                 <div class="header"><h1>Packing Fail Entry</h1></div>
                 <div class="card">
                     <form id="packing-fail-form" onsubmit="submitPackingFail(event)">
                         <div class="form-group">
-                            <label for="packing-fail-model">Model, Color & Batch</label>
-                            <select id="packing-fail-model" required><option value="">Loading...</option></select>
+                            <label for="packing-fail-model-search">Search Model, Color & Batch</label>
+                            <div class="autocomplete-container">
+                                <input type="text" id="packing-fail-model-search" placeholder="Type to search..." autocomplete="off">
+                                <input type="hidden" id="packing-fail-model">
+                                <div class="autocomplete-items" id="packing-fail-model-results"></div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="packing-fail-qty">Fail Quantity (pcs)</label>
@@ -318,13 +356,19 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Production Fail Page -->
             <div id="production-fail" class="page-content">
                 <div class="header"><h1>Production Fail Entry</h1></div>
                 <div class="card">
                     <form id="production-fail-form" onsubmit="submitProductionFail(event)">
                         <div class="form-group">
-                            <label for="fail-model">Model, Color & Batch</label>
-                            <select id="fail-model" required><option value="">Loading...</option></select>
+                            <label for="fail-model-search">Search Model, Color & Batch</label>
+                            <div class="autocomplete-container">
+                                <input type="text" id="fail-model-search" placeholder="Type to search..." autocomplete="off">
+                                <input type="hidden" id="fail-model">
+                                <div class="autocomplete-items" id="fail-model-results"></div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="fail-qty">Fail Quantity (pcs)</label>
@@ -334,13 +378,19 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Packing Send Page -->
             <div id="packing-send" class="page-content">
                 <div class="header"><h1>Send to Packing</h1></div>
                 <div class="card">
                     <form id="packing-send-form" onsubmit="submitPackingSend(event)">
                         <div class="form-group">
-                            <label for="packing-model">Model, Color & Batch</label>
-                            <select id="packing-model" required><option value="">Loading...</option></select>
+                            <label for="packing-model-search">Search Model, Color & Batch</label>
+                            <div class="autocomplete-container">
+                                <input type="text" id="packing-model-search" placeholder="Type to search..." autocomplete="off">
+                                <input type="hidden" id="packing-model">
+                                <div class="autocomplete-items" id="packing-model-results"></div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="packing-qty">Send Quantity (pcs)</label>
@@ -350,13 +400,19 @@
                     </form>
                 </div>
             </div>
+            
+            <!-- Packing Return Page -->
             <div id="packing-return" class="page-content">
                 <div class="header"><h1>Packing Return (Good Product)</h1></div>
                 <div class="card">
                     <form id="packing-return-form" onsubmit="submitPackingReturn(event)">
                         <div class="form-group">
-                            <label for="packing-return-model">Model, Color & Batch</label>
-                            <select id="packing-return-model" required><option value="">Loading...</option></select>
+                            <label for="packing-return-model-search">Search Model, Color & Batch</label>
+                             <div class="autocomplete-container">
+                                <input type="text" id="packing-return-model-search" placeholder="Type to search..." autocomplete="off">
+                                <input type="hidden" id="packing-return-model">
+                                <div class="autocomplete-items" id="packing-return-model-results"></div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="packing-return-qty">Return Quantity (pcs)</label>
@@ -366,13 +422,15 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Master Report Page -->
             <div id="master-report" class="page-content">
                 <div class="header"><h1>Master Report</h1></div>
                 <div class="card">
                     <div class="filter-container">
                         <input type="text" id="filter-model" placeholder="Search by model...">
                         <input type="text" id="filter-batch" placeholder="Search by batch number...">
-                        <button class="btn" onclick="fetchMasterReport()">Filter</button>
+                        <button class="btn" onclick="filterMasterReport()">Filter</button>
                         <button class="btn secondary" onclick="resetMasterReportFilter()">Reset</button>
                     </div>
                     <table class="styled-table">
@@ -392,6 +450,8 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Packing Send Master Report Page -->
             <div id="packing-send-master-report" class="page-content">
                 <div class="header"><h1>Packing Send Master Report</h1></div>
                 <div class="card">
@@ -418,7 +478,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
-        // Updated with your NEW Firebase project details
         const firebaseConfig = {
             apiKey: "AIzaSyC1gLXDKHtkMV2s5ZsRlrHF8MiuP_pQnCo",
             authDomain: "erp-22158.firebaseapp.com",
@@ -434,8 +493,18 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // All other Javascript functions are below, no changes needed.
         let allMaterialsData = [];
+        let allMaterialsForAutocomplete = [];
+
+        async function fetchAllMaterials() {
+            if (allMaterialsForAutocomplete.length > 0) return;
+            try {
+                const snapshot = await db.collection('materials').orderBy('modelName').get();
+                allMaterialsForAutocomplete = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (error) {
+                console.error("Failed to fetch materials for autocomplete:", error);
+            }
+        }
 
         function showPage(pageId, element) {
             document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
@@ -444,18 +513,19 @@
                 document.querySelectorAll('.sidebar-menu a').forEach(link => link.classList.remove('active'));
                 element.classList.add('active');
             }
-            if (pageId === 'dashboard') loadDashboard();
-            if (pageId === 'production-entry') loadProductionForm();
-            if (pageId === 'packing-fail') loadPackingFailForm();
-            if (pageId === 'production-fail') loadProductionFailForm(); 
-            if (pageId === 'packing-send') loadPackingSendForm(); 
-            if (pageId === 'packing-return') loadPackingReturnForm();
-            if (pageId === 'master-report') {
-                fetchAllMaterialsAndRenderReport();
-            }
-            if (pageId === 'packing-send-master-report') fetchPackingSendMasterReport(); 
+            
+            fetchAllMaterials().then(() => {
+                if (pageId === 'dashboard') loadDashboard();
+                if (pageId === 'production-entry') setupAutocompleteForm('prod-model-search', 'prod-model', 'prod-model-results');
+                if (pageId === 'packing-fail') setupAutocompleteForm('packing-fail-model-search', 'packing-fail-model', 'packing-fail-model-results');
+                if (pageId === 'production-fail') setupAutocompleteForm('fail-model-search', 'fail-model', 'fail-model-results');
+                if (pageId === 'packing-send') setupAutocompleteForm('packing-model-search', 'packing-model', 'packing-model-results');
+                if (pageId === 'packing-return') setupAutocompleteForm('packing-return-model-search', 'packing-return-model', 'packing-return-model-results');
+                if (pageId === 'master-report') fetchAllMaterialsAndRenderReport();
+                if (pageId === 'packing-send-master-report') fetchPackingSendMasterReport();
+            });
         }
-
+        
         auth.onAuthStateChanged(user => {
             if (user) {
                 document.getElementById('login-page').style.display = 'none';
@@ -478,7 +548,173 @@
         }
 
         function logoutUser() { auth.signOut(); }
+        
+        function setupAutocompleteForm(searchInputId, hiddenInputId, resultsContainerId) {
+            const searchInput = document.getElementById(searchInputId);
+            const hiddenInput = document.getElementById(hiddenInputId);
+            const resultsContainer = document.getElementById(resultsContainerId);
 
+            searchInput.value = '';
+            hiddenInput.value = '';
+            resultsContainer.innerHTML = '';
+
+            searchInput.oninput = function() {
+                const query = this.value.toLowerCase();
+                hiddenInput.value = '';
+                resultsContainer.innerHTML = '';
+
+                if (!query) return;
+
+                const filtered = allMaterialsForAutocomplete.filter(item => {
+                    const fullText = `${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})`.toLowerCase();
+                    return fullText.includes(query);
+                });
+
+                filtered.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    const fullText = `${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})`;
+                    
+                    const index = fullText.toLowerCase().indexOf(query);
+                    const highlightedText = `${fullText.substring(0, index)}<strong>${fullText.substring(index, index + query.length)}</strong>${fullText.substring(index + query.length)}`;
+                    
+                    itemDiv.innerHTML = highlightedText;
+                    
+                    itemDiv.onclick = function() {
+                        searchInput.value = fullText;
+                        hiddenInput.value = item.id;
+                        resultsContainer.innerHTML = '';
+                    };
+                    resultsContainer.appendChild(itemDiv);
+                });
+            };
+        }
+        
+        document.addEventListener('click', function(e) {
+            const containers = document.querySelectorAll('.autocomplete-container');
+            containers.forEach(container => {
+                if (!container.contains(e.target)) {
+                    container.querySelector('.autocomplete-items').innerHTML = '';
+                }
+            });
+        });
+
+        async function handleTransaction(event, formId, modelId, qtyId, updateLogic, successMsg, errorMsg) {
+            event.preventDefault();
+            const modelDocId = document.getElementById(modelId).value;
+            const quantity = Number(document.getElementById(qtyId).value);
+
+            if (!modelDocId || quantity <= 0) {
+                alert('Please search and select a valid model from the list.');
+                return;
+            }
+            
+            const docRef = db.collection('materials').doc(modelDocId);
+
+            try {
+                await db.runTransaction(async (transaction) => {
+                    const doc = await transaction.get(docRef);
+                    if (!doc.exists) throw "Document not found!";
+                    await updateLogic(transaction, doc, quantity, docRef);
+                });
+                alert(successMsg);
+                document.getElementById(formId).reset();
+                const resultsContainer = document.getElementById(modelId + '-results');
+                if(resultsContainer) resultsContainer.innerHTML = '';
+
+            } catch (error) {
+                alert(`${errorMsg}: ${error}`);
+            }
+        }
+
+        function submitProductionEntry(event) {
+            handleTransaction(event, 'production-form', 'prod-model', 'entry-qty', 
+                (trans, doc, qty, ref) => trans.update(ref, { inHandQty: firebase.firestore.FieldValue.increment(qty) }),
+                'Production entry submitted successfully!', 'Failed to submit entry'
+            );
+        }
+
+        function submitPackingFail(event) {
+            handleTransaction(event, 'packing-fail-form', 'packing-fail-model', 'packing-fail-qty',
+                (trans, doc, qty, ref) => {
+                    const currentPackingSent = doc.data().packingSentQty || 0;
+                    if (qty > currentPackingSent) throw `Fail quantity (${qty}) cannot be greater than the quantity sent to packing (${currentPackingSent}).`;
+                    trans.update(ref, {
+                        packingSentQty: firebase.firestore.FieldValue.increment(-qty),
+                        faultyQty: firebase.firestore.FieldValue.increment(qty)
+                    });
+                },
+                'Packing fail entry submitted successfully!', 'Failed to submit entry'
+            );
+        }
+        
+        function submitProductionFail(event) {
+            handleTransaction(event, 'production-fail-form', 'fail-model', 'fail-qty', 
+                (trans, doc, qty, ref) => trans.update(ref, { failQty: firebase.firestore.FieldValue.increment(qty) }),
+                'Production fail entry submitted successfully!', 'Failed to submit entry'
+            );
+        }
+
+        async function submitPackingSend(event) {
+            event.preventDefault();
+            const modelDocId = document.getElementById('packing-model').value;
+            const quantity = Number(document.getElementById('packing-qty').value);
+
+            if (!modelDocId || quantity <= 0) {
+                alert('Please search and select a valid model and quantity.'); return;
+            }
+            
+            const selectedItem = allMaterialsForAutocomplete.find(item => item.id === modelDocId);
+            if(!selectedItem) {
+                alert("An error occurred. The selected model could not be found.");
+                return;
+            }
+
+            const materialDocRef = db.collection('materials').doc(modelDocId);
+
+            try {
+                await db.runTransaction(async (transaction) => {
+                    const materialDoc = await transaction.get(materialDocRef);
+                    if (!materialDoc.exists) throw "Product not found!";
+                    
+                    const currentInHand = materialDoc.data().inHandQty || 0;
+                    if (quantity > currentInHand) throw `Send quantity (${quantity}) cannot be greater than current stock (${currentInHand}).`;
+                    
+                    transaction.update(materialDocRef, {
+                        inHandQty: firebase.firestore.FieldValue.increment(-quantity),
+                        packingSentQty: firebase.firestore.FieldValue.increment(quantity)
+                    });
+
+                    const packingSendRef = db.collection('packing_sends').doc();
+                    transaction.set(packingSendRef, {
+                        materialId: modelDocId,
+                        modelName: selectedItem.modelName,
+                        color: selectedItem.color,
+                        batchNo: selectedItem.batchNo,
+                        quantity,
+                        sentAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                });
+                alert('Successfully sent to packing!');
+                document.getElementById('packing-send-form').reset();
+            } catch (error) {
+                alert('An error occurred while sending: ' + error);
+            }
+        }
+        
+        function submitPackingReturn(event) {
+             handleTransaction(event, 'packing-return-form', 'packing-return-model', 'packing-return-qty',
+                (trans, doc, qty, ref) => {
+                    const currentPackingSent = doc.data().packingSentQty || 0;
+                    if (qty > currentPackingSent) throw `Return quantity (${qty}) cannot be greater than quantity sent to packing (${currentPackingSent}).`;
+                    trans.update(ref, {
+                        packingSentQty: firebase.firestore.FieldValue.increment(-qty),
+                        inHandQty: firebase.firestore.FieldValue.increment(qty)
+                    });
+                },
+                'Successfully returned from packing!', 'Failed to process return'
+            );
+        }
+        
         async function loadDashboard() {
             try {
                 const snapshot = await db.collection('materials').get();
@@ -522,166 +758,30 @@
                 console.error("Error loading dashboard data:", error);
             }
         }
-
-        async function loadSelectOptions(selectElementId) {
-            const selectElement = document.getElementById(selectElementId);
-            selectElement.innerHTML = '<option value="">Loading...</option>';
-            try {
-                const snapshot = await db.collection('materials').orderBy('modelName').get();
-                let optionsHtml = '<option value="">-- Select a model --</option>';
-                snapshot.forEach(doc => {
-                    const item = doc.data();
-                    optionsHtml += `<option value="${doc.id}" 
-                                            data-model="${item.modelName}" 
-                                            data-color="${item.color}" 
-                                            data-batch="${item.batchNo || ''}">
-                                        ${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})
-                                    </option>`;
-                });
-                selectElement.innerHTML = optionsHtml;
-            } catch(error) {
-                console.error("Error loading select options:", error);
-                selectElement.innerHTML = '<option value="">Failed to load data</option>';
-            }
-        }
-
-        function loadProductionForm() { loadSelectOptions('prod-model'); }
-        function loadPackingFailForm() { loadSelectOptions('packing-fail-model'); }
-        function loadProductionFailForm() { loadSelectOptions('fail-model'); }
-        function loadPackingSendForm() { loadSelectOptions('packing-model'); }
-        function loadPackingReturnForm() { loadSelectOptions('packing-return-model'); }
-
-        async function handleTransaction(event, formId, modelId, qtyId, updateLogic, successMsg, errorMsg) {
-             event.preventDefault();
-            const modelDocId = document.getElementById(modelId).value;
-            const quantity = Number(document.getElementById(qtyId).value);
-
-            if (!modelDocId || quantity <= 0) {
-                alert('Please select a valid model and quantity.');
-                return;
-            }
-            
-            const docRef = db.collection('materials').doc(modelDocId);
-
-            try {
-                await db.runTransaction(async (transaction) => {
-                    const doc = await transaction.get(docRef);
-                    if (!doc.exists) throw "Document not found!";
-                    await updateLogic(transaction, doc, quantity, docRef);
-                });
-                alert(successMsg);
-                document.getElementById(formId).reset();
-            } catch (error) {
-                alert(`${errorMsg}: ${error}`);
-            }
-        }
         
-        function submitProductionEntry(event) {
-            handleTransaction(event, 'production-form', 'prod-model', 'entry-qty', 
-                (trans, doc, qty, ref) => trans.update(ref, { inHandQty: firebase.firestore.FieldValue.increment(qty) }),
-                'Production entry submitted successfully!', 'Failed to submit entry'
-            );
-        }
-
-        function submitPackingFail(event) {
-            handleTransaction(event, 'packing-fail-form', 'packing-fail-model', 'packing-fail-qty',
-                (trans, doc, qty, ref) => {
-                    const currentPackingSent = doc.data().packingSentQty || 0;
-                    if (qty > currentPackingSent) throw `Fail quantity (${qty}) cannot be greater than the quantity sent to packing (${currentPackingSent}).`;
-                    trans.update(ref, {
-                        packingSentQty: firebase.firestore.FieldValue.increment(-qty),
-                        faultyQty: firebase.firestore.FieldValue.increment(qty)
-                    });
-                },
-                'Packing fail entry submitted successfully!', 'Failed to submit entry'
-            );
-        }
-        
-        function submitProductionFail(event) {
-            handleTransaction(event, 'production-fail-form', 'fail-model', 'fail-qty', 
-                (trans, doc, qty, ref) => trans.update(ref, { failQty: firebase.firestore.FieldValue.increment(qty) }),
-                'Production fail entry submitted successfully!', 'Failed to submit entry'
-            );
-        }
-        
-        async function submitPackingSend(event) {
-            event.preventDefault();
-            const select = document.getElementById('packing-model');
-            const modelDocId = select.value;
-            const quantity = Number(document.getElementById('packing-qty').value);
-
-            if (!modelDocId || quantity <= 0) {
-                alert('Please select a valid model and quantity.'); return;
-            }
-            
-            const option = select.options[select.selectedIndex];
-            const modelName = option.dataset.model;
-            const color = option.dataset.color;
-            const batchNo = option.dataset.batch;
-
-            const materialDocRef = db.collection('materials').doc(modelDocId);
-
-            try {
-                await db.runTransaction(async (transaction) => {
-                    const materialDoc = await transaction.get(materialDocRef);
-                    if (!materialDoc.exists) throw "Product not found!";
-                    
-                    const currentInHand = materialDoc.data().inHandQty || 0;
-                    if (quantity > currentInHand) throw `Send quantity (${quantity}) cannot be greater than current stock (${currentInHand}).`;
-                    
-                    transaction.update(materialDocRef, {
-                        inHandQty: firebase.firestore.FieldValue.increment(-quantity),
-                        packingSentQty: firebase.firestore.FieldValue.increment(quantity)
-                    });
-
-                    const packingSendRef = db.collection('packing_sends').doc();
-                    transaction.set(packingSendRef, {
-                        materialId: modelDocId, modelName, color, batchNo, quantity,
-                        sentAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                });
-                alert('Successfully sent to packing!');
-                document.getElementById('packing-send-form').reset();
-            } catch (error) {
-                alert('An error occurred while sending: ' + error);
-            }
-        }
-
-        function submitPackingReturn(event) {
-             handleTransaction(event, 'packing-return-form', 'packing-return-model', 'packing-return-qty',
-                (trans, doc, qty, ref) => {
-                    const currentPackingSent = doc.data().packingSentQty || 0;
-                    if (qty > currentPackingSent) throw `Return quantity (${qty}) cannot be greater than quantity sent to packing (${currentPackingSent}).`;
-                    trans.update(ref, {
-                        packingSentQty: firebase.firestore.FieldValue.increment(-qty),
-                        inHandQty: firebase.firestore.FieldValue.increment(qty)
-                    });
-                },
-                'Successfully returned from packing!', 'Failed to process return'
-            );
-        }
-
         async function fetchAllMaterialsAndRenderReport() {
             const reportTableBody = document.getElementById('report-table-body');
             reportTableBody.innerHTML = `<tr><td colspan="8">Loading...</td></tr>`;
-            const snapshot = await db.collection('materials').orderBy('createdAt', 'desc').get();
-            allMaterialsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderMasterReport(allMaterialsData);
+            try {
+                const snapshot = await db.collection('materials').orderBy('createdAt', 'desc').get();
+                allMaterialsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderMasterReport(allMaterialsData);
+            } catch(error) {
+                console.error("Error fetching master report:", error);
+            }
         }
-
-        function fetchMasterReport() {
+        
+        function filterMasterReport() {
             const modelFilter = document.getElementById('filter-model').value.toLowerCase();
             const batchFilter = document.getElementById('filter-batch').value.toLowerCase();
-
             const filteredData = allMaterialsData.filter(item => {
                 const modelMatch = modelFilter ? (item.modelName || '').toLowerCase().includes(modelFilter) : true;
                 const batchMatch = batchFilter ? (item.batchNo || '').toLowerCase().includes(batchFilter) : true;
                 return modelMatch && batchMatch;
             });
-
             renderMasterReport(filteredData);
         }
-
+        
         function renderMasterReport(data) {
             const reportTableBody = document.getElementById('report-table-body');
             let tableHtml = '';
@@ -696,18 +796,7 @@
                 const totalFail = (item.faultyQty || 0) + (item.failQty || 0);
                 const achievement = inHand + packingSent;
                 const remaining = target - achievement;
-                tableHtml += `
-                    <tr>
-                        <td>${item.modelName}</td>
-                        <td>${item.batchNo || 'N/A'}</td>
-                        <td>${item.color}</td>
-                        <td>${target}</td>
-                        <td>${inHand}</td>
-                        <td>${packingSent}</td>
-                        <td>${totalFail}</td>
-                        <td>${remaining > 0 ? remaining : 0}</td>
-                    </tr>
-                `;
+                tableHtml += `<tr><td>${item.modelName}</td><td>${item.batchNo || 'N/A'}</td><td>${item.color}</td><td>${target}</td><td>${inHand}</td><td>${packingSent}</td><td>${totalFail}</td><td>${remaining > 0 ? remaining : 0}</td></tr>`;
             });
             reportTableBody.innerHTML = tableHtml;
         }
@@ -721,22 +810,26 @@
         async function fetchPackingSendMasterReport() {
             const reportTableBody = document.getElementById('packing-report-table-body');
             reportTableBody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
-            const snapshot = await db.collection('packing_sends').orderBy('sentAt', 'desc').get();
-            let tableHtml = '';
-            snapshot.forEach(doc => {
-                const item = doc.data();
-                const date = item.sentAt ? item.sentAt.toDate().toLocaleString('en-US') : 'N/A';
-                tableHtml += `
-                    <tr>
-                        <td>${date}</td>
-                        <td>${item.modelName}</td>
-                        <td>${item.batchNo || 'N/A'}</td>
-                        <td>${item.color}</td>
-                        <td>${item.quantity}</td>
-                    </tr>
-                `;
-            });
-            reportTableBody.innerHTML = tableHtml;
+            try {
+                const snapshot = await db.collection('packing_sends').orderBy('sentAt', 'desc').get();
+                let tableHtml = '';
+                snapshot.forEach(doc => {
+                    const item = doc.data();
+                    const date = item.sentAt ? item.sentAt.toDate().toLocaleString('en-US') : 'N/A';
+                    tableHtml += `
+                        <tr>
+                            <td>${date}</td>
+                            <td>${item.modelName}</td>
+                            <td>${item.batchNo || 'N/A'}</td>
+                            <td>${item.color}</td>
+                            <td>${item.quantity}</td>
+                        </tr>
+                    `;
+                });
+                reportTableBody.innerHTML = tableHtml;
+            } catch(error) {
+                console.error("Error fetching packing send report:", error);
+            }
         }
 
     </script>
