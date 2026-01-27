@@ -149,7 +149,7 @@
         }
         .kpi-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -230,7 +230,6 @@
         .styled-table tbody tr:hover {
             background-color: #f9f9f9;
         }
-        /* ===== START: NEW AUTOCOMPLETE STYLES ===== */
         .autocomplete-container {
             position: relative;
         }
@@ -255,7 +254,28 @@
         .autocomplete-items div:hover {
             background-color: #e9e9e9;
         }
-        /* ===== END: NEW AUTOCOMPLETE STYLES ===== */
+        
+        /* Print Specific Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-area, #printable-area * {
+                visibility: visible;
+            }
+            #printable-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .styled-table {
+                font-size: 10pt;
+            }
+            .styled-table th, .styled-table td {
+                padding: 8px 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -301,6 +321,7 @@
                 <div class="kpi-cards">
                     <div class="kpi-card"><h3>Total Target</h3><p id="kpi-total-target">0</p></div>
                     <div class="kpi-card success"><h3>Total Production</h3><p id="kpi-total-production">0</p></div>
+                    <div class="kpi-card" style="border-color: var(--warning-color);"><h3>Sent to Packing</h3><p id="kpi-total-packing-sent">0</p></div>
                     <div class="kpi-card success"><h3>Success Rate</h3><p id="kpi-achievement-rate">0%</p></div>
                     <div class="kpi-card danger"><h3>Total Failures</h3><p id="kpi-total-fail">0</p></div>
                 </div>
@@ -432,22 +453,26 @@
                         <input type="text" id="filter-batch" placeholder="Search by batch number...">
                         <button class="btn" onclick="filterMasterReport()">Filter</button>
                         <button class="btn secondary" onclick="resetMasterReportFilter()">Reset</button>
+                        <button class="btn" onclick="printMasterReport()">Print Report</button>
                     </div>
-                    <table class="styled-table">
-                        <thead>
-                            <tr>
-                                <th>Model Name</th>
-                                <th>Batch No.</th>
-                                <th>Color</th>
-                                <th>Target</th>
-                                <th>In-Hand</th>
-                                <th>Sent to Packing</th>
-                                <th>Total Fail</th>
-                                <th>Remaining</th>
-                            </tr>
-                        </thead>
-                        <tbody id="report-table-body"></tbody>
-                    </table>
+                    <div id="printable-area">
+                        <h2 style="text-align: center;">Master Report</h2>
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Model Name</th>
+                                    <th>Batch No.</th>
+                                    <th>Color</th>
+                                    <th>Target</th>
+                                    <th>In-Hand</th>
+                                    <th>Sent to Packing</th>
+                                    <th>Total Fail</th>
+                                    <th>Remaining</th>
+                                </tr>
+                            </thead>
+                            <tbody id="report-table-body"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -549,6 +574,52 @@
 
         function logoutUser() { auth.signOut(); }
         
+        async function loadDashboard() {
+            try {
+                const snapshot = await db.collection('materials').get();
+                let totalTarget = 0, totalProduction = 0, totalFail = 0, totalPackingSent = 0;
+                let performanceHtml = '';
+                
+                snapshot.forEach(doc => {
+                    const item = doc.data();
+                    const target = item.targetQty || 0;
+                    const inHand = item.inHandQty || 0;
+                    const packingSent = item.packingSentQty || 0;
+                    const faulty = item.faultyQty || 0; 
+                    const fail = item.failQty || 0;
+                    const achievement = inHand + packingSent;
+
+                    totalTarget += target;
+                    totalProduction += achievement;
+                    totalPackingSent += packingSent;
+                    totalFail += (faulty + fail);
+                    
+                    const progress = target > 0 ? (achievement / target) * 100 : 0;
+                    performanceHtml += `
+                        <div class="progress-item">
+                            <span>${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})</span>
+                            <span>${target}</span>
+                            <div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: ${progress.toFixed(2)}%;">${progress.toFixed(0)}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('kpi-total-target').textContent = totalTarget;
+                document.getElementById('kpi-total-production').textContent = totalProduction;
+                document.getElementById('kpi-total-packing-sent').textContent = totalPackingSent;
+                document.getElementById('kpi-total-fail').textContent = totalFail;
+                const achievementRate = totalTarget > 0 ? (totalProduction / totalTarget) * 100 : 0;
+                document.getElementById('kpi-achievement-rate').textContent = `${achievementRate.toFixed(1)}%`;
+                document.getElementById('product-performance-list').innerHTML = performanceHtml;
+            } catch(error) {
+                console.error("Error loading dashboard data:", error);
+            }
+        }
+
         function setupAutocompleteForm(searchInputId, hiddenInputId, resultsContainerId) {
             const searchInput = document.getElementById(searchInputId);
             const hiddenInput = document.getElementById(hiddenInputId);
@@ -715,50 +786,6 @@
             );
         }
         
-        async function loadDashboard() {
-            try {
-                const snapshot = await db.collection('materials').get();
-                let totalTarget = 0, totalProduction = 0, totalFail = 0;
-                let performanceHtml = '';
-                
-                snapshot.forEach(doc => {
-                    const item = doc.data();
-                    const target = item.targetQty || 0;
-                    const inHand = item.inHandQty || 0;
-                    const packingSent = item.packingSentQty || 0;
-                    const faulty = item.faultyQty || 0; 
-                    const fail = item.failQty || 0;
-                    const achievement = inHand + packingSent;
-
-                    totalTarget += target;
-                    totalProduction += achievement;
-                    totalFail += (faulty + fail);
-                    
-                    const progress = target > 0 ? (achievement / target) * 100 : 0;
-                    performanceHtml += `
-                        <div class="progress-item">
-                            <span>${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})</span>
-                            <span>${target}</span>
-                            <div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar" style="width: ${progress.toFixed(2)}%;">${progress.toFixed(0)}%</div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                document.getElementById('kpi-total-target').textContent = totalTarget;
-                document.getElementById('kpi-total-production').textContent = totalProduction;
-                document.getElementById('kpi-total-fail').textContent = totalFail;
-                const achievementRate = totalTarget > 0 ? (totalProduction / totalTarget) * 100 : 0;
-                document.getElementById('kpi-achievement-rate').textContent = `${achievementRate.toFixed(1)}%`;
-                document.getElementById('product-performance-list').innerHTML = performanceHtml;
-            } catch(error) {
-                console.error("Error loading dashboard data:", error);
-            }
-        }
-        
         async function fetchAllMaterialsAndRenderReport() {
             const reportTableBody = document.getElementById('report-table-body');
             reportTableBody.innerHTML = `<tr><td colspan="8">Loading...</td></tr>`;
@@ -807,6 +834,31 @@
             renderMasterReport(allMaterialsData);
         }
         
+        // --- NEW PRINT FUNCTION ---
+        function printMasterReport() {
+            const printContent = document.getElementById('printable-area').innerHTML;
+            const originalContent = document.body.innerHTML;
+            
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Master Report</title>');
+            // Optional: Add some basic styling for the print view
+            printWindow.document.write(`
+                <style>
+                    body { font-family: 'Segoe UI', Tahoma, sans-serif; }
+                    .styled-table { width: 100%; border-collapse: collapse; }
+                    .styled-table th, .styled-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                    .styled-table th { background-color: #f2f2f2; }
+                </style>
+            `);
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
+
         async function fetchPackingSendMasterReport() {
             const reportTableBody = document.getElementById('packing-report-table-body');
             reportTableBody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
@@ -831,7 +883,6 @@
                 console.error("Error fetching packing send report:", error);
             }
         }
-
     </script>
 </body>
 </html>
