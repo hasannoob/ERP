@@ -6,276 +6,42 @@
     <title>Unique ERP User Panel</title>
     <style>
         :root {
-            --primary-color: #27ae60;
-            --secondary-color: #2ecc71;
-            --background-color: #ecf0f1;
-            --sidebar-bg: #2c3e50;
-            --sidebar-text: #ecf0f1;
-            --sidebar-hover: #34495e;
-            --text-color: #34495e;
-            --card-bg: #ffffff;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            --danger-color: #e74c3c;
-            --warning-color: #f39c12;
+            --primary-color: #27ae60; --secondary-color: #2ecc71; --background-color: #ecf0f1;
+            --sidebar-bg: #2c3e50; --sidebar-text: #ecf0f1; --sidebar-hover: #34495e;
+            --text-color: #34495e; --card-bg: #ffffff; --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --danger-color: #e74c3c; --warning-color: #f39c12;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            margin: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-        .user-container {
-            display: flex;
-            min-height: 100vh;
-        }
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            display: flex;
-            flex-direction: column;
-            transition: width 0.3s;
-        }
-        .sidebar-header {
-            padding: 20px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-bottom: 1px solid var(--sidebar-hover);
-        }
-        .sidebar-menu {
-            list-style: none;
-            padding: 20px 0;
-            margin: 0;
-            flex-grow: 1;
-        }
-        .sidebar-menu li a {
-            display: flex;
-            align-items: center;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            padding: 15px 20px;
-            transition: background-color 0.3s;
-            border-left: 4px solid transparent;
-        }
-        .sidebar-menu li a:hover {
-            background-color: var(--sidebar-hover);
-        }
-        .sidebar-menu li a.active {
-            background-color: var(--primary-color);
-            border-left: 4px solid var(--sidebar-text);
-            font-weight: bold;
-        }
-        .main-content {
-            flex-grow: 1;
-            padding: 25px;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 2rem;
-            color: #2c3e50;
-        }
-        .page-content {
-            display: none;
-        }
-        .page-content.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .card {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .btn {
-            background: var(--primary-color);
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background: var(--secondary-color);
-        }
-        .btn.secondary {
-            background: #7f8c8d;
-        }
-        .btn.secondary:hover {
-            background: #95a5a6;
-        }
-        #login-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .filter-container {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .filter-container input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .kpi-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .kpi-card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            border-left: 5px solid var(--primary-color);
-        }
-        .kpi-card.success { border-color: var(--secondary-color); }
-        .kpi-card.danger { border-color: var(--danger-color); }
-        .kpi-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1rem;
-            color: #7f8c8d;
-            text-transform: uppercase;
-        }
-        .kpi-card p {
-            margin: 0;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-color);
-        }
-        .progress-list .list-header {
-            display: grid;
-            grid-template-columns: 3fr 1fr 2fr;
-            font-weight: bold;
-            padding: 10px 15px;
-            color: #7f8c8d;
-        }
-        .progress-item {
-            display: grid;
-            grid-template-columns: 3fr 1fr 2fr;
-            align-items: center;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            transition: transform 0.2s;
-        }
-        .progress-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        .progress-bar-container {
-            background-color: #ecf0f1;
-            border-radius: 10px;
-            overflow: hidden;
-            height: 20px;
-        }
-        .progress-bar {
-            background-color: var(--primary-color);
-            height: 100%;
-            border-radius: 10px;
-            text-align: center;
-            color: white;
-            font-size: 12px;
-            line-height: 20px;
-            transition: width 0.5s ease-in-out;
-        }
-        .styled-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .styled-table thead tr {
-            background-color: var(--primary-color);
-            color: #ffffff;
-            text-align: left;
-        }
-        .styled-table th,
-        .styled-table td {
-            padding: 12px 15px;
-        }
-        .styled-table tbody tr {
-            border-bottom: 1px solid #dddddd;
-        }
-        .styled-table tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-        .autocomplete-container {
-            position: relative;
-        }
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            border-bottom: none;
-            border-top: none;
-            z-index: 99;
-            top: 100%;
-            left: 0;
-            right: 0;
-            max-height: 200px;
-            overflow-y: auto;
-            background-color: #fff;
-        }
-        .autocomplete-items div {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px solid #d4d4d4;
-        }
-        .autocomplete-items div:hover {
-            background-color: #e9e9e9;
-        }
-        
-        /* Print Specific Styles */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #printable-area, #printable-area * {
-                visibility: visible;
-            }
-            #printable-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-            .styled-table {
-                font-size: 10pt;
-            }
-            .styled-table th, .styled-table td {
-                padding: 8px 10px;
-            }
-        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background-color: var(--background-color); color: var(--text-color); }
+        .user-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; }
+        .sidebar-header { padding: 20px; text-align: center; font-size: 1.5rem; font-weight: bold; border-bottom: 1px solid var(--sidebar-hover); }
+        .sidebar-menu { list-style: none; padding: 20px 0; margin: 0; flex-grow: 1; }
+        .sidebar-menu li a { display: flex; align-items: center; color: var(--sidebar-text); text-decoration: none; padding: 15px 20px; transition: background-color 0.3s; border-left: 4px solid transparent; }
+        .sidebar-menu li a:hover { background-color: var(--sidebar-hover); }
+        .sidebar-menu li a.active { background-color: var(--primary-color); border-left: 4px solid var(--sidebar-text); font-weight: bold; }
+        .main-content { flex-grow: 1; padding: 25px; }
+        .header h1 { margin: 0; font-size: 2rem; color: #2c3e50; }
+        .page-content { display: none; }
+        .page-content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .card { background-color: var(--card-bg); padding: 25px; border-radius: 10px; box-shadow: var(--shadow); margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .btn { background: var(--primary-color); color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; font-weight: bold; }
+        #login-page { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .kpi-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .kpi-card { background: var(--card-bg); padding: 20px; border-radius: 10px; text-align: center; border-left: 5px solid var(--primary-color); }
+        .kpi-card h3 { margin: 0 0 10px 0; font-size: 1rem; color: #7f8c8d; text-transform: uppercase; }
+        .kpi-card p { margin: 0; font-size: 2.2rem; font-weight: 700; }
+        .styled-table { width: 100%; border-collapse: collapse; }
+        .styled-table thead tr { background-color: var(--primary-color); color: #ffffff; }
+        .styled-table th, .styled-table td { padding: 12px 15px; border-bottom: 1px solid #dddddd; }
+        .autocomplete-container { position: relative; }
+        .autocomplete-items { position: absolute; border: 1px solid #d4d4d4; z-index: 99; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; background-color: #fff; }
+        .autocomplete-items div { padding: 10px; cursor: pointer; border-bottom: 1px solid #d4d4d4; }
+        .permission-denied-card { text-align: center; padding: 50px; }
+        .permission-denied-card h1 { color: var(--danger-color); }
     </style>
 </head>
 <body>
@@ -285,15 +51,9 @@
             <h2>User Login</h2>
             <div id="login-error" style="color: var(--danger-color); margin-bottom: 10px;"></div>
             <form onsubmit="loginUser(event)">
-                <div class="form-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" required>
-                </div>
-                <button type="submit" class="btn">Login</button>
+                <div class="form-group"><label for="login-email">Email</label><input type="email" id="login-email" required></div>
+                <div class="form-group"><label for="login-password">Password</label><input type="password" id="login-password" required></div>
+                <button type="submit" class="btn" style="width:100%">Login</button>
             </form>
         </div>
     </div>
@@ -309,43 +69,29 @@
                 <li><a href="#" onclick="showPage('packing-send', this)">Send to Packing</a></li>
                 <li><a href="#" onclick="showPage('packing-return', this)">Packing Return</a></li>
                 <li><a href="#" onclick="showPage('master-report', this)">Master Report</a></li>
-                <li><a href="#" onclick="showPage('packing-send-master-report', this)">Packing Send Report</a></li>
+                <li><a href="#" onclick="showPage('packing-send-report', this)">Packing Send Report</a></li>
                 <li><a href="#" onclick="logoutUser()">Logout</a></li>
             </ul>
         </nav>
-
         <main class="main-content">
-            <!-- Dashboard Page -->
             <div id="dashboard" class="page-content">
                 <div class="header"><h1>Dashboard Overview</h1></div>
                 <div class="kpi-cards">
                     <div class="kpi-card"><h3>Total Target</h3><p id="kpi-total-target">0</p></div>
-                    <div class="kpi-card success"><h3>Total Production</h3><p id="kpi-total-production">0</p></div>
+                    <div class="kpi-card"><h3>Total Production</h3><p id="kpi-total-production">0</p></div>
                     <div class="kpi-card" style="border-color: var(--warning-color);"><h3>Sent to Packing</h3><p id="kpi-total-packing-sent">0</p></div>
-                    <div class="kpi-card success"><h3>Success Rate</h3><p id="kpi-achievement-rate">0%</p></div>
-                    <div class="kpi-card danger"><h3>Total Failures</h3><p id="kpi-total-fail">0</p></div>
-                </div>
-                <div class="card">
-                    <h3>Product Performance</h3>
-                    <div class="progress-list">
-                        <div class="list-header"><span>Product</span><span>Target</span><span>Progress</span></div>
-                        <div id="product-performance-list"></div>
-                    </div>
+                    <div class="kpi-card" style="border-color: var(--danger-color);"><h3>Total Failures</h3><p id="kpi-total-fail">0</p></div>
                 </div>
             </div>
-
-            <!-- Production Entry Page -->
             <div id="production-entry" class="page-content">
                 <div class="header"><h1>Production Entry</h1></div>
                 <div class="card">
                     <form id="production-form" onsubmit="submitProductionEntry(event)">
-                        <div class="form-group">
+                        <div class="form-group autocomplete-container">
                             <label for="prod-model-search">Search Model, Color & Batch</label>
-                            <div class="autocomplete-container">
-                                <input type="text" id="prod-model-search" placeholder="Type to search..." autocomplete="off">
-                                <input type="hidden" id="prod-model">
-                                <div class="autocomplete-items" id="prod-model-results"></div>
-                            </div>
+                            <input type="text" id="prod-model-search" placeholder="Type to search..." autocomplete="off">
+                            <input type="hidden" id="prod-model-id">
+                            <div class="autocomplete-items" id="prod-model-results"></div>
                         </div>
                         <div class="form-group">
                             <label for="entry-qty">Entry Quantity (pcs)</label>
@@ -355,41 +101,15 @@
                     </form>
                 </div>
             </div>
-            
-            <!-- Packing Fail Page -->
-            <div id="packing-fail" class="page-content">
-                <div class="header"><h1>Packing Fail Entry</h1></div>
-                <div class="card">
-                    <form id="packing-fail-form" onsubmit="submitPackingFail(event)">
-                        <div class="form-group">
-                            <label for="packing-fail-model-search">Search Model, Color & Batch</label>
-                            <div class="autocomplete-container">
-                                <input type="text" id="packing-fail-model-search" placeholder="Type to search..." autocomplete="off">
-                                <input type="hidden" id="packing-fail-model">
-                                <div class="autocomplete-items" id="packing-fail-model-results"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="packing-fail-qty">Fail Quantity (pcs)</label>
-                            <input type="number" id="packing-fail-qty" min="1" required>
-                        </div>
-                        <button type="submit" class="btn" style="background: var(--danger-color);">Submit Fail Entry</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Production Fail Page -->
             <div id="production-fail" class="page-content">
                 <div class="header"><h1>Production Fail Entry</h1></div>
                 <div class="card">
-                    <form id="production-fail-form" onsubmit="submitProductionFail(event)">
-                        <div class="form-group">
+                    <form id="fail-form" onsubmit="submitProductionFail(event)">
+                        <div class="form-group autocomplete-container">
                             <label for="fail-model-search">Search Model, Color & Batch</label>
-                            <div class="autocomplete-container">
-                                <input type="text" id="fail-model-search" placeholder="Type to search..." autocomplete="off">
-                                <input type="hidden" id="fail-model">
-                                <div class="autocomplete-items" id="fail-model-results"></div>
-                            </div>
+                            <input type="text" id="fail-model-search" placeholder="Type to search..." autocomplete="off">
+                            <input type="hidden" id="fail-model-id">
+                            <div class="autocomplete-items" id="fail-model-results"></div>
                         </div>
                         <div class="form-group">
                             <label for="fail-qty">Fail Quantity (pcs)</label>
@@ -399,41 +119,51 @@
                     </form>
                 </div>
             </div>
-
-            <!-- Packing Send Page -->
+            <div id="packing-fail" class="page-content">
+                <div class="header"><h1>Packing Fail Entry</h1></div>
+                <div class="card">
+                    <form id="packing-fail-form" onsubmit="submitPackingFail(event)">
+                        <div class="form-group autocomplete-container">
+                            <label for="packing-fail-model-search">Search Model, Color & Batch</label>
+                            <input type="text" id="packing-fail-model-search" placeholder="Type to search..." autocomplete="off">
+                            <input type="hidden" id="packing-fail-model-id">
+                            <div class="autocomplete-items" id="packing-fail-model-results"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="packing-fail-qty">Fail Quantity (pcs)</label>
+                            <input type="number" id="packing-fail-qty" min="1" required>
+                        </div>
+                        <button type="submit" class="btn" style="background: var(--danger-color);">Submit Fail Entry</button>
+                    </form>
+                </div>
+            </div>
             <div id="packing-send" class="page-content">
                 <div class="header"><h1>Send to Packing</h1></div>
                 <div class="card">
                     <form id="packing-send-form" onsubmit="submitPackingSend(event)">
-                        <div class="form-group">
-                            <label for="packing-model-search">Search Model, Color & Batch</label>
-                            <div class="autocomplete-container">
-                                <input type="text" id="packing-model-search" placeholder="Type to search..." autocomplete="off">
-                                <input type="hidden" id="packing-model">
-                                <div class="autocomplete-items" id="packing-model-results"></div>
-                            </div>
+                        <div class="form-group autocomplete-container">
+                            <label for="packing-send-model-search">Search Model, Color & Batch</label>
+                            <input type="text" id="packing-send-model-search" placeholder="Type to search..." autocomplete="off">
+                            <input type="hidden" id="packing-send-model-id">
+                            <div class="autocomplete-items" id="packing-send-model-results"></div>
                         </div>
                         <div class="form-group">
-                            <label for="packing-qty">Send Quantity (pcs)</label>
-                            <input type="number" id="packing-qty" min="1" required>
+                            <label for="packing-send-qty">Send Quantity (pcs)</label>
+                            <input type="number" id="packing-send-qty" min="1" required>
                         </div>
                         <button type="submit" class="btn">Send to Packing</button>
                     </form>
                 </div>
             </div>
-            
-            <!-- Packing Return Page -->
             <div id="packing-return" class="page-content">
                 <div class="header"><h1>Packing Return (Good Product)</h1></div>
                 <div class="card">
                     <form id="packing-return-form" onsubmit="submitPackingReturn(event)">
-                        <div class="form-group">
-                            <label for="packing-return-model-search">Search Model, Color & Batch</label>
-                             <div class="autocomplete-container">
-                                <input type="text" id="packing-return-model-search" placeholder="Type to search..." autocomplete="off">
-                                <input type="hidden" id="packing-return-model">
-                                <div class="autocomplete-items" id="packing-return-model-results"></div>
-                            </div>
+                        <div class="form-group autocomplete-container">
+                             <label for="packing-return-model-search">Search Model, Color & Batch</label>
+                            <input type="text" id="packing-return-model-search" placeholder="Type to search..." autocomplete="off">
+                            <input type="hidden" id="packing-return-model-id">
+                            <div class="autocomplete-items" id="packing-return-model-results"></div>
                         </div>
                         <div class="form-group">
                             <label for="packing-return-qty">Return Quantity (pcs)</label>
@@ -443,119 +173,60 @@
                     </form>
                 </div>
             </div>
-
-            <!-- Master Report Page -->
             <div id="master-report" class="page-content">
                 <div class="header"><h1>Master Report</h1></div>
                 <div class="card">
-                    <div class="filter-container">
-                        <input type="text" id="filter-model" placeholder="Search by model...">
-                        <input type="text" id="filter-batch" placeholder="Search by batch number...">
-                        <button class="btn" onclick="filterMasterReport()">Filter</button>
-                        <button class="btn secondary" onclick="resetMasterReportFilter()">Reset</button>
-                        <button class="btn" onclick="printMasterReport()">Print Report</button>
-                    </div>
-                    <div id="printable-area">
-                        <h2 style="text-align: center;">Master Report</h2>
-                        <table class="styled-table">
-                            <thead>
-                                <tr>
-                                    <th>Model Name</th>
-                                    <th>Batch No.</th>
-                                    <th>Color</th>
-                                    <th>Target</th>
-                                    <th>In-Hand</th>
-                                    <th>Sent to Packing</th>
-                                    <th>Total Fail</th>
-                                    <th>Remaining</th>
-                                </tr>
-                            </thead>
-                            <tbody id="report-table-body"></tbody>
-                        </table>
-                    </div>
+                    <table class="styled-table">
+                        <thead><tr><th>Model Name</th><th>Batch No.</th><th>Color</th><th>Target</th><th>In-Hand</th><th>Sent to Packing</th><th>Total Fail</th><th>Remaining</th></tr></thead>
+                        <tbody id="report-table-body"></tbody>
+                    </table>
                 </div>
             </div>
-
-            <!-- Packing Send Master Report Page -->
-            <div id="packing-send-master-report" class="page-content">
+            <div id="packing-send-report" class="page-content">
                 <div class="header"><h1>Packing Send Master Report</h1></div>
                 <div class="card">
                     <table class="styled-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Model Name</th>
-                                <th>Batch No.</th>
-                                <th>Color</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Date</th><th>Model Name</th><th>Batch No.</th><th>Color</th><th>Quantity</th></tr></thead>
                         <tbody id="packing-report-table-body"></tbody>
                     </table>
+                </div>
+            </div>
+            <div id="permission-denied" class="page-content">
+                <div class="card permission-denied-card">
+                    <h1>Permission Denied</h1>
+                    <p>আপনার এই পৃষ্ঠাটি দেখার অনুমতি নেই।</p>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyC1gLXDKHtkMV2s5ZsRlrHF8MiuP_pQnCo",
-            authDomain: "erp-22158.firebaseapp.com",
-            databaseURL: "https://erp-22158-default-rtdb.firebaseio.com",
-            projectId: "erp-22158",
-            storageBucket: "erp-22158.appspot.com",
-            messagingSenderId: "87466207491",
-            appId: "1:87466207491:web:e1edbb1910f59cb3cf6136",
-            measurementId: "G-651LD359N7"
-        };
-        
+        const firebaseConfig = { apiKey: "AIzaSyC1gLXDKHtkMV2s5ZsRlrHF8MiuP_pQnCo", authDomain: "erp-22158.firebaseapp.com", projectId: "erp-22158", storageBucket: "erp-22158.appspot.com", messagingSenderId: "87466207491", appId: "1:87466207491:web:e1edbb1910f59cb3cf6136" };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        let allMaterialsData = [];
-        let allMaterialsForAutocomplete = [];
+        let currentUserPermissions = {};
+        let allMaterials = [];
+        const pagePermissionMapping = { 'dashboard': 'viewDashboard', 'production-entry': 'canEnterProduction', 'production-fail': 'canEnterProductionFail', 'packing-fail': 'canEnterPackingFail', 'packing-send': 'canSendToPacking', 'packing-return': 'canReturnFromPacking', 'master-report': 'viewMasterReport', 'packing-send-report': 'viewPackingReport' };
 
-        async function fetchAllMaterials() {
-            if (allMaterialsForAutocomplete.length > 0) return;
-            try {
-                const snapshot = await db.collection('materials').orderBy('modelName').get();
-                allMaterialsForAutocomplete = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            } catch (error) {
-                console.error("Failed to fetch materials for autocomplete:", error);
-            }
-        }
-
-        function showPage(pageId, element) {
-            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            if (element) {
-                document.querySelectorAll('.sidebar-menu a').forEach(link => link.classList.remove('active'));
-                element.classList.add('active');
-            }
-            
-            fetchAllMaterials().then(() => {
-                if (pageId === 'dashboard') loadDashboard();
-                if (pageId === 'production-entry') setupAutocompleteForm('prod-model-search', 'prod-model', 'prod-model-results');
-                if (pageId === 'packing-fail') setupAutocompleteForm('packing-fail-model-search', 'packing-fail-model', 'packing-fail-model-results');
-                if (pageId === 'production-fail') setupAutocompleteForm('fail-model-search', 'fail-model', 'fail-model-results');
-                if (pageId === 'packing-send') setupAutocompleteForm('packing-model-search', 'packing-model', 'packing-model-results');
-                if (pageId === 'packing-return') setupAutocompleteForm('packing-return-model-search', 'packing-return-model', 'packing-return-model-results');
-                if (pageId === 'master-report') fetchAllMaterialsAndRenderReport();
-                if (pageId === 'packing-send-master-report') fetchPackingSendMasterReport();
-            });
-        }
-        
         auth.onAuthStateChanged(user => {
             if (user) {
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('user-panel').style.display = 'flex';
-                showPage('dashboard', document.querySelector('.sidebar-menu a'));
+                db.collection('users').doc(user.uid).get().then(doc => {
+                    if (doc.exists && doc.data().permissions) {
+                        currentUserPermissions = doc.data().permissions;
+                        document.getElementById('login-page').style.display = 'none';
+                        document.getElementById('user-panel').style.display = 'flex';
+                        showPage('dashboard', document.querySelector('.sidebar-menu a'));
+                        fetchAllMaterials();
+                    } else {
+                        alert("Access Denied. Your user profile is not configured with permissions.");
+                        logoutUser();
+                    }
+                });
             } else {
                 document.getElementById('login-page').style.display = 'flex';
                 document.getElementById('user-panel').style.display = 'none';
@@ -564,325 +235,146 @@
 
         function loginUser(event) {
             event.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            auth.signInWithEmailAndPassword(email, password)
-                .catch(error => {
-                    document.getElementById('login-error').textContent = 'Incorrect email or password.';
-                });
+            auth.signInWithEmailAndPassword(document.getElementById('login-email').value, document.getElementById('login-password').value)
+                .catch(err => document.getElementById('login-error').textContent = 'Incorrect email or password.');
         }
 
         function logoutUser() { auth.signOut(); }
-        
-        async function loadDashboard() {
-            try {
-                const snapshot = await db.collection('materials').get();
-                let totalTarget = 0, totalProduction = 0, totalFail = 0, totalPackingSent = 0;
-                let performanceHtml = '';
-                
-                snapshot.forEach(doc => {
-                    const item = doc.data();
-                    const target = item.targetQty || 0;
-                    const inHand = item.inHandQty || 0;
-                    const packingSent = item.packingSentQty || 0;
-                    const faulty = item.faultyQty || 0; 
-                    const fail = item.failQty || 0;
-                    const achievement = inHand + packingSent;
 
-                    totalTarget += target;
-                    totalProduction += achievement;
-                    totalPackingSent += packingSent;
-                    totalFail += (faulty + fail);
-                    
-                    const progress = target > 0 ? (achievement / target) * 100 : 0;
-                    performanceHtml += `
-                        <div class="progress-item">
-                            <span>${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})</span>
-                            <span>${target}</span>
-                            <div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar" style="width: ${progress.toFixed(2)}%;">${progress.toFixed(0)}%</div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                document.getElementById('kpi-total-target').textContent = totalTarget;
-                document.getElementById('kpi-total-production').textContent = totalProduction;
-                document.getElementById('kpi-total-packing-sent').textContent = totalPackingSent;
-                document.getElementById('kpi-total-fail').textContent = totalFail;
-                const achievementRate = totalTarget > 0 ? (totalProduction / totalTarget) * 100 : 0;
-                document.getElementById('kpi-achievement-rate').textContent = `${achievementRate.toFixed(1)}%`;
-                document.getElementById('product-performance-list').innerHTML = performanceHtml;
-            } catch(error) {
-                console.error("Error loading dashboard data:", error);
+        function showPage(pageId, el) {
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            if(el) el.classList.add('active');
+            
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            
+            const requiredPermission = pagePermissionMapping[pageId];
+            if (currentUserPermissions[requiredPermission]) {
+                document.getElementById(pageId).classList.add('active');
+                if (pageId === 'dashboard') loadDashboard();
+                if (pageId === 'master-report') renderMasterReport();
+                if (pageId === 'packing-send-report') fetchPackingSendReport();
+            } else {
+                document.getElementById('permission-denied').classList.add('active');
             }
         }
 
-        function setupAutocompleteForm(searchInputId, hiddenInputId, resultsContainerId) {
-            const searchInput = document.getElementById(searchInputId);
-            const hiddenInput = document.getElementById(hiddenInputId);
-            const resultsContainer = document.getElementById(resultsContainerId);
+        async function fetchAllMaterials() {
+            if (allMaterials.length > 0) return;
+            const snapshot = await db.collection('materials').orderBy('createdAt', 'desc').get();
+            allMaterials = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setupAllAutocompletes();
+            loadDashboard();
+            renderMasterReport();
+        }
 
-            searchInput.value = '';
-            hiddenInput.value = '';
-            resultsContainer.innerHTML = '';
+        function setupAllAutocompletes() {
+            setupAutocomplete('prod-model-search', 'prod-model-id', 'prod-model-results');
+            setupAutocomplete('fail-model-search', 'fail-model-id', 'fail-model-results');
+            setupAutocomplete('packing-fail-model-search', 'packing-fail-model-id', 'packing-fail-model-results');
+            setupAutocomplete('packing-send-model-search', 'packing-send-model-id', 'packing-send-model-results');
+            setupAutocomplete('packing-return-model-search', 'packing-return-model-id', 'packing-return-model-results');
+        }
 
-            searchInput.oninput = function() {
-                const query = this.value.toLowerCase();
-                hiddenInput.value = '';
+        function setupAutocomplete(inputId, hiddenId, resultId) {
+            const searchInput = document.getElementById(inputId);
+            if (!searchInput) return;
+            searchInput.oninput = () => {
+                const query = searchInput.value.toLowerCase();
+                const resultsContainer = document.getElementById(resultId);
                 resultsContainer.innerHTML = '';
-
                 if (!query) return;
-
-                const filtered = allMaterialsForAutocomplete.filter(item => {
-                    const fullText = `${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})`.toLowerCase();
-                    return fullText.includes(query);
-                });
-
+                const filtered = allMaterials.filter(item => `${item.modelName} ${item.color} ${item.batchNo || ''}`.toLowerCase().includes(query));
                 filtered.forEach(item => {
-                    const itemDiv = document.createElement('div');
-                    const fullText = `${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})`;
-                    
-                    const index = fullText.toLowerCase().indexOf(query);
-                    const highlightedText = `${fullText.substring(0, index)}<strong>${fullText.substring(index, index + query.length)}</strong>${fullText.substring(index + query.length)}`;
-                    
-                    itemDiv.innerHTML = highlightedText;
-                    
-                    itemDiv.onclick = function() {
-                        searchInput.value = fullText;
-                        hiddenInput.value = item.id;
+                    const div = document.createElement('div');
+                    div.textContent = `${item.modelName} - ${item.color} (Batch: ${item.batchNo || 'N/A'})`;
+                    div.onclick = () => {
+                        searchInput.value = div.textContent;
+                        document.getElementById(hiddenId).value = item.id;
                         resultsContainer.innerHTML = '';
                     };
-                    resultsContainer.appendChild(itemDiv);
+                    resultsContainer.appendChild(div);
                 });
             };
+             document.addEventListener('click', (e) => { if (!e.target.closest('.autocomplete-container')) { document.getElementById(resultId).innerHTML = ''; } });
         }
         
-        document.addEventListener('click', function(e) {
-            const containers = document.querySelectorAll('.autocomplete-container');
-            containers.forEach(container => {
-                if (!container.contains(e.target)) {
-                    container.querySelector('.autocomplete-items').innerHTML = '';
-                }
-            });
-        });
-
-        async function handleTransaction(event, formId, modelId, qtyId, updateLogic, successMsg, errorMsg) {
+        async function handleTransaction(formId, modelId, qtyId, updateLogic, successMsg) {
             event.preventDefault();
-            const modelDocId = document.getElementById(modelId).value;
-            const quantity = Number(document.getElementById(qtyId).value);
-
-            if (!modelDocId || quantity <= 0) {
-                alert('Please search and select a valid model from the list.');
-                return;
-            }
-            
-            const docRef = db.collection('materials').doc(modelDocId);
-
+            const docId = document.getElementById(modelId).value, qty = Number(document.getElementById(qtyId).value);
+            if (!docId || qty <= 0) { alert("Please select a model and enter quantity."); return; }
+            const docRef = db.collection('materials').doc(docId);
             try {
-                await db.runTransaction(async (transaction) => {
-                    const doc = await transaction.get(docRef);
-                    if (!doc.exists) throw "Document not found!";
-                    await updateLogic(transaction, doc, quantity, docRef);
+                await db.runTransaction(async (t) => {
+                    const doc = await t.get(docRef);
+                    if (!doc.exists) throw "Product not found!";
+                    await updateLogic(t, doc, qty, docRef);
                 });
                 alert(successMsg);
                 document.getElementById(formId).reset();
-                const resultsContainer = document.getElementById(modelId + '-results');
-                if(resultsContainer) resultsContainer.innerHTML = '';
-
-            } catch (error) {
-                alert(`${errorMsg}: ${error}`);
-            }
+                allMaterials = []; // Clear cache to force refresh
+                await fetchAllMaterials();
+            } catch (error) { alert(`Error: ${error}`); }
         }
 
-        function submitProductionEntry(event) {
-            handleTransaction(event, 'production-form', 'prod-model', 'entry-qty', 
-                (trans, doc, qty, ref) => trans.update(ref, { inHandQty: firebase.firestore.FieldValue.increment(qty) }),
-                'Production entry submitted successfully!', 'Failed to submit entry'
-            );
-        }
-
-        function submitPackingFail(event) {
-            handleTransaction(event, 'packing-fail-form', 'packing-fail-model', 'packing-fail-qty',
-                (trans, doc, qty, ref) => {
-                    const currentPackingSent = doc.data().packingSentQty || 0;
-                    if (qty > currentPackingSent) throw `Fail quantity (${qty}) cannot be greater than the quantity sent to packing (${currentPackingSent}).`;
-                    trans.update(ref, {
-                        packingSentQty: firebase.firestore.FieldValue.increment(-qty),
-                        faultyQty: firebase.firestore.FieldValue.increment(qty)
-                    });
-                },
-                'Packing fail entry submitted successfully!', 'Failed to submit entry'
-            );
-        }
+        function submitProductionEntry(event) { handleTransaction('production-form', 'prod-model-id', 'entry-qty', (t, d, q, ref) => t.update(ref, { inHandQty: firebase.firestore.FieldValue.increment(q) }), 'Production entry successful!'); }
+        function submitProductionFail(event) { handleTransaction('fail-form', 'fail-model-id', 'fail-qty', (t, d, q, ref) => t.update(ref, { failQty: firebase.firestore.FieldValue.increment(q) }), 'Fail entry submitted.'); }
+        function submitPackingFail(event) { handleTransaction('packing-fail-form', 'packing-fail-model-id', 'packing-fail-qty', (t, d, q, ref) => { if (q > (d.data().packingSentQty || 0)) throw "Fail quantity exceeds quantity sent to packing."; t.update(ref, { packingSentQty: firebase.firestore.FieldValue.increment(-q), faultyQty: firebase.firestore.FieldValue.increment(q) }); }, 'Packing fail submitted.'); }
+        function submitPackingReturn(event) { handleTransaction('packing-return-form', 'packing-return-model-id', 'packing-return-qty', (t, d, q, ref) => { if (q > (d.data().packingSentQty || 0)) throw "Return quantity exceeds quantity sent to packing."; t.update(ref, { packingSentQty: firebase.firestore.FieldValue.increment(-q), inHandQty: firebase.firestore.FieldValue.increment(q) }); }, 'Product returned from packing.'); }
         
-        function submitProductionFail(event) {
-            handleTransaction(event, 'production-fail-form', 'fail-model', 'fail-qty', 
-                (trans, doc, qty, ref) => trans.update(ref, { failQty: firebase.firestore.FieldValue.increment(qty) }),
-                'Production fail entry submitted successfully!', 'Failed to submit entry'
-            );
-        }
-
         async function submitPackingSend(event) {
             event.preventDefault();
-            const modelDocId = document.getElementById('packing-model').value;
-            const quantity = Number(document.getElementById('packing-qty').value);
-
-            if (!modelDocId || quantity <= 0) {
-                alert('Please search and select a valid model and quantity.'); return;
-            }
-            
-            const selectedItem = allMaterialsForAutocomplete.find(item => item.id === modelDocId);
-            if(!selectedItem) {
-                alert("An error occurred. The selected model could not be found.");
-                return;
-            }
-
-            const materialDocRef = db.collection('materials').doc(modelDocId);
-
+            const docId = document.getElementById('packing-send-model-id').value, qty = Number(document.getElementById('packing-send-qty').value);
+            if (!docId || qty <= 0) { alert("Please select a model and quantity."); return; }
+            const item = allMaterials.find(m => m.id === docId), docRef = db.collection('materials').doc(docId);
             try {
-                await db.runTransaction(async (transaction) => {
-                    const materialDoc = await transaction.get(materialDocRef);
-                    if (!materialDoc.exists) throw "Product not found!";
-                    
-                    const currentInHand = materialDoc.data().inHandQty || 0;
-                    if (quantity > currentInHand) throw `Send quantity (${quantity}) cannot be greater than current stock (${currentInHand}).`;
-                    
-                    transaction.update(materialDocRef, {
-                        inHandQty: firebase.firestore.FieldValue.increment(-quantity),
-                        packingSentQty: firebase.firestore.FieldValue.increment(quantity)
-                    });
-
+                await db.runTransaction(async t => {
+                    const doc = await t.get(docRef);
+                    if (qty > (doc.data().inHandQty || 0)) throw "Send quantity exceeds in-hand stock.";
+                    t.update(docRef, { inHandQty: firebase.firestore.FieldValue.increment(-qty), packingSentQty: firebase.firestore.FieldValue.increment(qty) });
                     const packingSendRef = db.collection('packing_sends').doc();
-                    transaction.set(packingSendRef, {
-                        materialId: modelDocId,
-                        modelName: selectedItem.modelName,
-                        color: selectedItem.color,
-                        batchNo: selectedItem.batchNo,
-                        quantity,
-                        sentAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                    t.set(packingSendRef, { materialId: docId, modelName: item.modelName, color: item.color, batchNo: item.batchNo, quantity: qty, sentAt: firebase.firestore.FieldValue.serverTimestamp() });
                 });
-                alert('Successfully sent to packing!');
-                document.getElementById('packing-send-form').reset();
-            } catch (error) {
-                alert('An error occurred while sending: ' + error);
-            }
-        }
-        
-        function submitPackingReturn(event) {
-             handleTransaction(event, 'packing-return-form', 'packing-return-model', 'packing-return-qty',
-                (trans, doc, qty, ref) => {
-                    const currentPackingSent = doc.data().packingSentQty || 0;
-                    if (qty > currentPackingSent) throw `Return quantity (${qty}) cannot be greater than quantity sent to packing (${currentPackingSent}).`;
-                    trans.update(ref, {
-                        packingSentQty: firebase.firestore.FieldValue.increment(-qty),
-                        inHandQty: firebase.firestore.FieldValue.increment(qty)
-                    });
-                },
-                'Successfully returned from packing!', 'Failed to process return'
-            );
-        }
-        
-        async function fetchAllMaterialsAndRenderReport() {
-            const reportTableBody = document.getElementById('report-table-body');
-            reportTableBody.innerHTML = `<tr><td colspan="8">Loading...</td></tr>`;
-            try {
-                const snapshot = await db.collection('materials').orderBy('createdAt', 'desc').get();
-                allMaterialsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderMasterReport(allMaterialsData);
-            } catch(error) {
-                console.error("Error fetching master report:", error);
-            }
-        }
-        
-        function filterMasterReport() {
-            const modelFilter = document.getElementById('filter-model').value.toLowerCase();
-            const batchFilter = document.getElementById('filter-batch').value.toLowerCase();
-            const filteredData = allMaterialsData.filter(item => {
-                const modelMatch = modelFilter ? (item.modelName || '').toLowerCase().includes(modelFilter) : true;
-                const batchMatch = batchFilter ? (item.batchNo || '').toLowerCase().includes(batchFilter) : true;
-                return modelMatch && batchMatch;
-            });
-            renderMasterReport(filteredData);
-        }
-        
-        function renderMasterReport(data) {
-            const reportTableBody = document.getElementById('report-table-body');
-            let tableHtml = '';
-            if (data.length === 0) {
-                 reportTableBody.innerHTML = `<tr><td colspan="8">No data found.</td></tr>`;
-                 return;
-            }
-            data.forEach(item => {
-                const target = item.targetQty || 0;
-                const inHand = item.inHandQty || 0;
-                const packingSent = item.packingSentQty || 0;
-                const totalFail = (item.faultyQty || 0) + (item.failQty || 0);
-                const achievement = inHand + packingSent;
-                const remaining = target - achievement;
-                tableHtml += `<tr><td>${item.modelName}</td><td>${item.batchNo || 'N/A'}</td><td>${item.color}</td><td>${target}</td><td>${inHand}</td><td>${packingSent}</td><td>${totalFail}</td><td>${remaining > 0 ? remaining : 0}</td></tr>`;
-            });
-            reportTableBody.innerHTML = tableHtml;
-        }
-        
-        function resetMasterReportFilter() {
-            document.getElementById('filter-model').value = '';
-            document.getElementById('filter-batch').value = '';
-            renderMasterReport(allMaterialsData);
-        }
-        
-        // --- NEW PRINT FUNCTION ---
-        function printMasterReport() {
-            const printContent = document.getElementById('printable-area').innerHTML;
-            const originalContent = document.body.innerHTML;
-            
-            const printWindow = window.open('', '', 'height=600,width=800');
-            printWindow.document.write('<html><head><title>Master Report</title>');
-            // Optional: Add some basic styling for the print view
-            printWindow.document.write(`
-                <style>
-                    body { font-family: 'Segoe UI', Tahoma, sans-serif; }
-                    .styled-table { width: 100%; border-collapse: collapse; }
-                    .styled-table th, .styled-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                    .styled-table th { background-color: #f2f2f2; }
-                </style>
-            `);
-            printWindow.document.write('</head><body>');
-            printWindow.document.write(printContent);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
-            printWindow.close();
+                alert('Sent to packing successfully!'); document.getElementById('packing-send-form').reset(); allMaterials = []; await fetchAllMaterials();
+            } catch (error) { alert(`Error: ${error}`); }
         }
 
-        async function fetchPackingSendMasterReport() {
-            const reportTableBody = document.getElementById('packing-report-table-body');
-            reportTableBody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
-            try {
-                const snapshot = await db.collection('packing_sends').orderBy('sentAt', 'desc').get();
-                let tableHtml = '';
-                snapshot.forEach(doc => {
-                    const item = doc.data();
-                    const date = item.sentAt ? item.sentAt.toDate().toLocaleString('en-US') : 'N/A';
-                    tableHtml += `
-                        <tr>
-                            <td>${date}</td>
-                            <td>${item.modelName}</td>
-                            <td>${item.batchNo || 'N/A'}</td>
-                            <td>${item.color}</td>
-                            <td>${item.quantity}</td>
-                        </tr>
-                    `;
-                });
-                reportTableBody.innerHTML = tableHtml;
-            } catch(error) {
-                console.error("Error fetching packing send report:", error);
-            }
+        function loadDashboard() {
+            let totalTarget = 0, totalProd = 0, totalSent = 0, totalFail = 0;
+            allMaterials.forEach(item => {
+                totalTarget += item.targetQty || 0;
+                totalProd += (item.inHandQty || 0) + (item.packingSentQty || 0);
+                totalSent += item.packingSentQty || 0;
+                totalFail += (item.faultyQty || 0) + (item.failQty || 0);
+            });
+            document.getElementById('kpi-total-target').textContent = totalTarget;
+            document.getElementById('kpi-total-production').textContent = totalProd;
+            document.getElementById('kpi-total-packing-sent').textContent = totalSent;
+            document.getElementById('kpi-total-fail').textContent = totalFail;
+        }
+
+        function renderMasterReport() {
+            let html = '';
+            allMaterials.forEach(i => {
+                const t=i.targetQty||0, h=i.inHandQty||0, p=i.packingSentQty||0, f=(i.faultyQty||0)+(i.failQty||0), r=t-(h+p);
+                html += `<tr><td>${i.modelName}</td><td>${i.batchNo||'N/A'}</td><td>${i.color}</td><td>${t}</td><td>${h}</td><td>${p}</td><td>${f}</td><td>${r>0?r:0}</td></tr>`;
+            });
+            const tbody = document.querySelector('#master-report .styled-table tbody');
+            if(tbody) tbody.innerHTML = html || `<tr><td colspan="8">No data found.</td></tr>`;
+        }
+        async function fetchPackingSendReport() {
+            const tbody = document.querySelector('#packing-send-report .styled-table tbody');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+            const snapshot = await db.collection('packing_sends').orderBy('sentAt', 'desc').get();
+            let html = '';
+            snapshot.forEach(doc => {
+                const item = doc.data();
+                const date = item.sentAt ? item.sentAt.toDate().toLocaleString() : 'N/A';
+                html += `<tr><td>${date}</td><td>${item.modelName}</td><td>${item.batchNo||'N/A'}</td><td>${item.color}</td><td>${item.quantity}</td></tr>`;
+            });
+            tbody.innerHTML = html || '<tr><td colspan="5">No data found.</td></tr>';
         }
     </script>
 </body>
 </html>
+```</details>
