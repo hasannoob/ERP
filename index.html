@@ -69,7 +69,7 @@
 
         @media print {
             body * { visibility: hidden; }
-            .main-content, #master-report, #master-report .card, #master-report .card * { visibility: visible; }
+            .main-content, #master-report, #master-report .card, #master-report .card *, #print-header, #print-header * { visibility: visible; }
             #user-panel { display: block !important; }
             .main-content { padding: 0; }
             #master-report { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
@@ -780,16 +780,23 @@
             const batchFilter = document.getElementById('filter-batch').value.toUpperCase();
             const tbody = document.getElementById("report-table-body");
             const tr = tbody.getElementsByTagName("tr");
+
             for (let i = 0; i < tr.length; i++) {
                 const modelTd = tr[i].getElementsByTagName("td")[0];
                 const batchTd = tr[i].getElementsByTagName("td")[1];
+                
                 if (modelTd && batchTd) {
                     const modelText = (modelTd.textContent || modelTd.innerText).toUpperCase();
                     const batchText = (batchTd.textContent || batchTd.innerText).toUpperCase();
+                    
                     const modelMatch = modelText.indexOf(modelFilter) > -1;
                     const batchMatch = batchText.indexOf(batchFilter) > -1;
-                    if (modelMatch && batchMatch) { tr[i].style.display = ""; } 
-                    else { tr[i].style.display = "none"; }
+
+                    if (modelMatch && batchMatch) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
         }
@@ -797,7 +804,7 @@
         function clearMasterReportFilters() {
             document.getElementById('filter-model').value = '';
             document.getElementById('filter-batch').value = '';
-            applyMasterReportFilters();
+            applyMasterReportFilters(); // Apply empty filters to show all rows
         }
     </script>
 </body>
